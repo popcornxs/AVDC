@@ -1,9 +1,10 @@
 # AVDC
 
+> 基于 [moyy996/AVDC](https://github.com/moyy996/AVDC) 的维护分支，修复已知问题并增强稳定性。
 
 # 目录
 * [1.简介](#1简介)<br>
-* [2.反馈](#2反馈)
+* [2.更新日志](#2更新日志)
 * [3.常见番号命名规范(必看!!!!!!!!!)](#3常见番号命名规范)
 * [4.效果图](#4效果图)
     * [界面截图](#41界面截图)
@@ -32,11 +33,9 @@
 ![](https://img.shields.io/github/release/yoshiko2/av_data_capture.svg?style=flat-square)
 ![](https://img.shields.io/badge/Python-3.7-yellow.svg?style=flat-square&logo=python)<br>
 **GUI版(本项目)**：<br>
-<a title="Hits" target="_blank" href="https://github.com/moyy996/avdc"><img src="https://hits.b3log.org/moyy996/AVDC.svg"></a>
+<a title="Hits" target="_blank" href="https://github.com/popcornxs/AVDC"><img src="https://hits.b3log.org/popcornxs/AVDC.svg"></a>
 ![](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)
-![](https://img.shields.io/github/downloads/moyy996/avdc/total.svg?style=flat-square)
-![](https://img.shields.io/github/license/moyy996/avdc.svg?style=flat-square)
-![](https://img.shields.io/github/release/moyy996/avdc.svg?style=flat-square)
+![](https://img.shields.io/github/license/popcornxs/avdc.svg?style=flat-square)
 ![](https://img.shields.io/badge/Python-3.7-yellow.svg?style=flat-square&logo=python)
 ![](https://img.shields.io/badge/Pyqt-5-blue.svg?style=flat-square)<br>
 
@@ -48,8 +47,25 @@
 * 批量添加Emby演员头像。<br>
 * 封面可添加无码、字幕、流出水印。<br>
 
-# 2.反馈
-* 欢迎使用体验,有**程序BUG问题（带截图提问）、功能建议**,可进**电报群**反馈    [点击进群](https://t.me/joinchat/J54y1g3-a7nxJ_-WS4-KFQ)<br>
+# 2.更新日志
+> 相对于原版 [moyy996/AVDC](https://github.com/moyy996/AVDC) 的变更
+
+### Bug 修复
+* **修复多线程闪退问题**：原版在工作线程中直接操作 PyQt GUI 控件更新日志，导致程序随机崩溃。现已引入 `pyqtSignal` 信号量机制，确保日志更新在主线程安全执行。
+* **修复 NFO 文件格式错误**：原版生成的 NFO 文件缺少 `<?xml?>` 声明和 `<movie>` 根标签，导致 Emby/Kodi 无法正确解析。现已输出标准 XML 格式。
+* **修复 Pillow 兼容性**：`Image.ANTIALIAS` 在 Pillow 10.0+ 中已移除，替换为 `Image.LANCZOS`，兼容新版 Pillow。
+* **修复 HTTP 代理协议错误**：HTTP 类型代理的 HTTPS 请求误用 `https://` 前缀连接代理，已修正为 `http://` 前缀。
+
+### 功能增强
+* **图片下载反反爬虫**：为 javbus、dmm、javdb、avsox 的图片下载请求添加对应网站的 `Referer` 和 `Cookie`，解决图片下载 403 被拒问题。
+* **javdb 请求支持代理**：重写 `get_html_javdb` 函数，正确读取并使用代理配置发送请求。
+* **cloudscraper 优雅降级**：未安装 `cloudscraper` 时不再崩溃，自动回退到普通 `requests` 请求并提示。
+* **批量刮削网络容错**：批量刮削时单个文件遇到网络错误不再中断整个任务，自动跳过并继续处理下一个。
+* **配置文件路径统一管理**：基于脚本绝对路径定位 `config.ini`，无论从哪个工作目录启动都能正确找到配置文件。
+
+### UI 改进
+* 日志输出列对齐优化，信息更整齐易读。
+* 配置保存后自动重载并显示确认消息。
 
 # 3.常见番号命名规范
 **刮削前尽量命名规范！！！！**
@@ -83,53 +99,51 @@
 **主界面，设置，工具，关于**
 
 <div align="center">
-<img src="https://github.com/moyy996/AVDC/blob/master/readme/main_window.png" height="300">
-<img src="https://github.com/moyy996/AVDC/blob/master/readme/setting.gif" height="300">
+<img src="https://github.com/popcornxs/AVDC/blob/master/readme/main_window.png" height="300">
+<img src="https://github.com/popcornxs/AVDC/blob/master/readme/setting.gif" height="300">
 </div>
 <div align="center">
-<img src="https://github.com/moyy996/AVDC/blob/master/readme/tool.png" height="300">
-<img src="https://github.com/moyy996/AVDC/blob/master/readme/about.png" height="300">
+<img src="https://github.com/popcornxs/AVDC/blob/master/readme/tool.png" height="300">
+<img src="https://github.com/popcornxs/AVDC/blob/master/readme/about.png" height="300">
 </div>
 
 ## 4.2.**查看成功番号的信息(GIF演示)**
 <div>
-<img src="https://github.com/moyy996/AVDC/blob/master/readme/主页面.gif" height="500">
+<img src="https://github.com/popcornxs/AVDC/blob/master/readme/主页面.gif" height="500">
 </div>
 
 
 ## 4.3.**文件结构**<br>
 
 <div>
-<img src="https://github.com/moyy996/AVDC/blob/master/readme/tree-jav-output.png" height="700">
+<img src="https://github.com/popcornxs/AVDC/blob/master/readme/tree-jav-output.png" height="700">
 </div>
 
 ## 4.4.媒体库
 **以下为刮削、导入后的EMBY**<br>
 
 <div>
-<img src="https://github.com/moyy996/AVDC/blob/master/readme/emby.png" height="400">
-<img src="https://github.com/moyy996/AVDC/blob/master/readme/emby_each.png" height="400">
+<img src="https://github.com/popcornxs/AVDC/blob/master/readme/emby.png" height="400">
+<img src="https://github.com/popcornxs/AVDC/blob/master/readme/emby_each.png" height="400">
 </div>
 
 # 5.如何使用
 ## 5.1.下载
-* **Release** 的程序可脱离**python环境**运行，源码包需要 [安装模块](#53模块安装)<br>
-* **Release** 下载地址(**仅限Windows**): [点击下载](https://github.com/moyy996/AVDC/releases)<br>
-* **源码包** 下载地址(**Windows,Linux,MacOS**): [点击下载](https://github.com/moyy996/AVDC/archive/master.zip)<br>
+* **源码包** 下载地址(**Windows,Linux,MacOS**): [点击下载](https://github.com/popcornxs/AVDC/archive/refs/heads/master.zip)<br>
 
 * Windows Python环境: [点击前往](https://www.python.org/downloads/windows/) 选中executable installer下载
 * MacOS Python环境： [点击前往](https://www.python.org/downloads/mac-osx/)
 * Linux Python环境：Linux用户懂的吧，不解释下载地址
 
 ## 5.2.简要教程:<br>
-* **(1).运行AVDC.exe/AVDC_Main.py，配置设置页各项（配置方法请看以下[教程](54配置设置)）**<br>
+* **(1).运行AVDC_Main.py，配置设置页各项（配置方法请看以下[教程](54配置设置)）**<br>
 * **(2).把视频所在目录填在设置->目录设置->视频目录。**<br>
 * **(3).在主页面点击开始等待完成(出错请开调试模式后截图)**<br>
 * **(4).软件会自动把元数据获取成功的电影移动到```成功输出目录```中，根据演员分类，失败的电影移动到```失败输出目录```中（可选不移动）。**<br>
 * **(5).把JAV_output导入至KODI,EMBY,PLEX中。**<br>
 
-## 5.3..模块安装
-如果运行**源码**版，运行前请安装**Python环境**和安装以下**模块**<br>  
+## 5.3.模块安装
+如果运行**源码**版，运行前请安装**Python环境**和安装以下**模块**<br>
 在终端/cmd/Powershell中输入以下代码来安装模块,两种方法任选其一。<br>
 * **5.3.1、批量**从py-require.txt安装<br>
 >pip install -r py-require.txt<br>
@@ -144,7 +158,7 @@
 
 ## 5.4.配置设置
 **设置界面**
-![](https://github.com/moyy996/AVDC/blob/master/readme/setting.gif)
+![](https://github.com/popcornxs/AVDC/blob/master/readme/setting.gif)
 
 ---
 ### 普通设置
@@ -180,14 +194,14 @@
   **2、视频标题（媒体库中）**：nfo中的标题命名。例：number-[title]。可以自定义符号。<br>
   **3、视频标题（本地文件）**：本地视频、图片的命名。例：number-[title]。可以自定义符号。<br>
   **4、可选项**为title（片名）、actor（演员）、studio（制作商）、director（导演）、release（发售日）、year（发行年份）、number（番号）、runtime（时长）、series（系列）、publisher（发行商）<br>
-  
+
 ### 5.4.9.目录设置
   **1、视频目录**：要整理的视频的目录，**带盘符的绝对路径**，会遍历此目录下的**所有视频**，包括**子目录**中。<br>
   **2、排除目录**：在多层目录刮削时，**排除所填目录**。<br>
   **3、视频、字幕类型**：程序搜索不到想要的文件类型，可自行按格式添加。<br>
   **4、失败输出目录**：开启失败移动视频后，失败的视频会移动到此目录。<br>
   **5、成功输出目录**：刮削成功的视频，会在此目录创建文件夹，并移动视频、下载图片、写入nfo到此目录。<br>
-  
+
 ---
 ### 水印设置
 ### 5.4.10.水印设置
@@ -199,7 +213,7 @@
 
 ---
 ### 其它设置
-### 5.4.11.代理设置 
+### 5.4.11.代理设置
   **1、代理**：设置本地代理地址和端口。代理软件开**全局模式**  ,**使用DMM网站时需要使用日本代理**。<br>
   **2、超时重试设置**：单位：秒，**可选范围3-10**。<br>
   **3、连接重试次数**：**可选范围2-5**。<br>
@@ -218,7 +232,7 @@
 ---
 # 6.工具
 **工具界面**
-![](https://github.com/moyy996/AVDC/blob/master/readme/tool.png)
+![](https://github.com/popcornxs/AVDC/blob/master/readme/tool.png)
 **1、视频移动**：可将**视频目录**下除排除目录下的所有视频以及同名字幕，移动到**视频目录**下的**Movie_moved**目录下。<br><br>
 **2、单文件刮削**：偶尔有失败情况时，选择这个视频文件，使用文件名当番号进行刮削。<br>
 &emsp;&ensp;**建议**的使用流程：到某网站找到这个番号,把番号改成网站上的规范番号,选用对应的网站刮削。<br>
@@ -233,12 +247,11 @@
 
 ---
 ## 7.1.关于软件打不开
-* 请确保软件是完整的！，**AVDC.exe，ACDV-ico.png,config.ini**需要在同一目录下，确保ini文件内容是和下载提供ini文件内容的一致的！<br>
+* 请确保软件是完整的！，**AVDC_Main.py，ACDV-ico.png,config.ini**需要在同一目录下，确保ini文件内容是和下载提供ini文件内容的一致的！<br>
 
 ---
 ## 7.2.关于软件闪退
-* 尝试**重新运行**<br>
-* 还解决不了，查看**log**日志，尝试以下**7.3、7.4**解决<br>
+* 原版存在多线程日志更新的闪退问题，本分支已修复。如仍闪退，查看**log**日志，尝试以下**7.3、7.4**解决<br>
 
 ---
 ## 7.3.网络错误
@@ -320,6 +333,3 @@ When you run the software, you accept the following terms
 
 # 12.写在后面
 怎么样，看着自己的日本电影被这样完美地管理，是不是感觉成就感爆棚呢?<br>
-
-
-
