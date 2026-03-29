@@ -1,0 +1,9 @@
+lxml
+pyqt5
+pyqt5-tools
+pillow
+bs4
+pyquery
+requests
+baidu-aip
+cloudscraper
